@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Notes} from './Notes/Notes';
 import {v1} from 'uuid';
-import {AddItemForm} from './AddItemForm';
+
 import {SearchForm} from "../../SearchForm";
+import {AddItemFormNote} from "./AddItemFormNote";
 
 
 type TodolistType = {
@@ -84,7 +85,7 @@ const searchTask=(title:string)=>{
     return (
         <div className="App">
             <div>
-                <AddItemForm addItem={addTodolist} titlebutton={'Add Note'}  setTitle={""}/>
+                <AddItemFormNote addItem={addTodolist} titlebutton={'Add Note'} setTitle={""}/>
                 <SearchForm searchItem={searchTask} titlebutton={'Search by #'}/>
             </div>
 
