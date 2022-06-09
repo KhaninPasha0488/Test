@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import './App.css';
-import {TaskType, Notes} from './components/Notes/Notes';
+import {TaskType, Notes} from './Notes/Notes';
 import {v1} from 'uuid';
 import {AddItemForm} from './AddItemForm';
-import {SearchForm} from "./SearchForm";
+import {SearchForm} from "../../SearchForm";
 
 
 type TodolistType = {
