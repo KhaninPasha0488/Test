@@ -5,15 +5,15 @@ type AddSearchFormPropsType = {
 }
 export const SearchForm = (props:AddSearchFormPropsType) => {
 
-    let [title, setTitle] = useState("")
+    let [title, setTitle] = useState("#")
     let [error, setError] = useState<string | null>(null)
 
     const addItem = () => {
-        if (title.trim() !== "") {
+        if (title.trim() !== "" && title[0] === "#") {
             props.searchItem(title);
             setTitle("");
         } else {
-            setError("Title is required");
+            setError("Error: your tag must starts with '#'");
         }
     }
 
@@ -34,7 +34,6 @@ export const SearchForm = (props:AddSearchFormPropsType) => {
                onKeyPress={onKeyPressHandler}
                className={error ? "error" : ""}
         />
-        <button onClick={addItem} >{props.titlebutton}</button>
 
         {error && <div className="error-message">{error}</div>}
     </div>
