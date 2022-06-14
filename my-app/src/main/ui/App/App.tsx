@@ -2,7 +2,7 @@ import React from 'react';
 
 import './App.scss';
 import data from "../../data/data.json"
-import {Notes, NotesPropsType} from "../Notes/Notes";
+import {Notes} from "../Notes/Notes";
 
 
  export const App = () => {

@@ -1,22 +1,28 @@
 import React, {useState} from 'react';
 import s from "./Note.module.scss"
-import {NotesType, TagType} from "./Notes";
+import {TagType} from "./Notes";
 import comm from "../commonstyle/Botton.module.scss"
-
+import {EditNote} from "./EditNote";
+import {TagList} from "../TagsList/TagList";
+import { Marker } from "react-mark.js";
+import {findTags} from "../../../utils/findTags";
 
 export type NoteType = {
-    // notes:Array<NotesType>
     not_id: number
-    editNote: () => void
+    editNote: (not_id: number, description: string, tags: TagType[]) => void
     deleteNote: (id: number) => void
-    addTag: () => void
-    deleteTag: () => void
+    addTag: (not_id: number, tag: string) => void
+    deleteTag: (not_id: number, id: number) => void
     tagList: TagType[]
     description: string
+
 }
 
 export const Note = (props: NoteType) => {
+    // console.log(findTags(props.description))
     const [isEdit, setIsEdit] = useState<boolean>(false)
+    const tempTags:any = findTags(props.description)
+
     return (
         <div className={s.noteOuterWrapper}>
             {!isEdit && <div className={s.noteInnerWrapper}>
@@ -24,7 +30,8 @@ export const Note = (props: NoteType) => {
                     <div className={s.noteBody}>
 
                         <div className={s.noteDescription}>
-                            {props.description}
+                            <Marker mark={tempTags} >{props.description}</Marker>
+                          {/*{props.description}*/}
                         </div>
                     </div>
                 </div>
@@ -44,17 +51,23 @@ export const Note = (props: NoteType) => {
                 </div>
             </div>
             }
-            {/*{isEdit && <EditNote*/}
-            {/*    cancel={setIsEdit}*/}
-            {/*    id={props.id}*/}
-            {/*    description={props.description}*/}
-            {/*    edit={props.editNote}*/}
-            {/*    tagList={props.tagList}*/}
-            {/*    addTag={props.addTag}*/}
-            {/*/>*/}
-            {/*}*/}
-            <hr/>
-            {/*<TagList tags={tagList} addTag={addTag} noteId={id} deleteTag={deleteTag}/>*/}
+            {isEdit && <EditNote
+                cancel={setIsEdit}
+                not_id={props.not_id}
+                description={props.description}
+                edit={props.editNote}
+                tagList={props.tagList}
+                addTag={props.addTag}
+            />
+            }
+
+            <TagList
+                tags={props.tagList}
+                addTag={props.addTag}
+                noteId={props.not_id}
+                deleteTag={props.deleteTag}
+            />
+
         </div>
     );
 };
