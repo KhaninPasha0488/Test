@@ -40,7 +40,7 @@ export const Notes = (props: NotesPropsType) => {
             })
         }
         return searchArray
-    }, [query,notes])
+    }, [query, notes])
 
     const deleteNote = (not_id: number) => {
         setNotes(notes.filter(note => note.not_id !== not_id))
@@ -52,88 +52,102 @@ export const Notes = (props: NotesPropsType) => {
         if (tagsBodies) {
             tagArrayObjects = tagsBodies.map(tag => ({id: createId, body: tag}))
         }
-        const note = {not_id: createId(), description: newNotice, tags:tagArrayObjects }
+        const note = {not_id: createId(), description: newNotice, tags: tagArrayObjects}
         setNotes([note, ...notes])
         setNewNotice('')
 
     }
-    const editNote = (not_id: number, description: string, tags:any) => {
-        console.log(tags)
+    const editNote = (not_id: number, description: string, tags: any) => {
+        console.log(description)
         if (Array.isArray(tags)) {
             setNotes(notes.map(note => {
                 return not_id !== note.not_id ? note : {
                     not_id,
                     description,
-                     // tags: tags.map(tag => ({id: createId(), body:tag.body}))
-                     tags: [...note.tags.map(tag => ({id: createId(), body:tag.body}))],
+                    tags: [...note.tags.map(tag => ({id: createId(), body: tag.body}))]
+                    //tags: [...note.tags.map(tag => ({id: createId(), body:tag.body}))],
 
                 }
             }))
-        } else {
+            // setTimeout(() => addTag(not_id,tags[tags.length-1]), 1000);
+
+            //addTag(not_id,tags[tags.length-1])
+        }
+
+        // } else {
+        //    setNotes(notes.map(note => {
+        //        return not_id !== note.not_id ? note : {not_id, description, tags: [...note.tags]}
+        //
+        //    }))
+
+
+    }
+    const addTag = (not_id: number, tag:any) => {
+        console.log(not_id, tag)
+        //
+
+        //     // @ts-ignore
+        //     setNotes(notes.map(note => {
+        //         return not_id !== note.not_id ? note : {...note,
+        //             tags: [...note.tags, tag.map(item => ({id: createId, body: item}))]
+        //         }
+        //     }))
+        //
+
             setNotes(notes.map(note => {
-                return not_id !== note.not_id ? note : {not_id, description, tags: [...note.tags]}
+                return not_id !== note.not_id ? note : {...note, tags: [...note.tags, {id: createId(), body: tag}]}
 
             }))
 
         }
-    }
-    const addTag = (not_id: number, tag:any ) => {
-        //console.log(tag)
-        // if (Array.isArray(tag)) {
-        //
-        //     setNotes(notes.map(note => {
-        //         return not_id !== note.not_id ? note : {
-        //             ...note,
-        //             tags: [...note.tags ,tag.map(item => ({id: createId, body: item}))]
-        //         }
-        //     }))
-        // } else {
-        setNotes(notes.map(note => {
-             return not_id !== note.not_id ? note : {...note, tags: [...note.tags, {id: createId(), body:tag}]}
 
-        }))
-    }
+        // setNotes(notes.map(note => {
+        //     return not_id !== note.not_id ? note : {
+        //         not_id,description,
+        //         description,
+        //         tags: [...note.tags.map(tag => ({id: createId(), body: tag.body}))]
 
-    const deleteTag = (not_id: number, id: number) => {
-        setNotes(notes.map(note => {
-            return not_id !== note.not_id ? note : {...note, tags: [...note.tags.filter(tag => id !== tag.id)]}
-            //return id !== note.id ? note : {...note, tags: [...note.tags.filter(tag => tagId !== tag.id)]}
-        }))
-    }
-    return (
-        <div className={s.notes}>
-            <div className={s.newNoteAndTag}>
-                <div className={s.newNote}>
+
+        const deleteTag = (not_id: number, id: number) => {
+            setNotes(notes.map(note => {
+                return not_id !== note.not_id ? note : {...note, tags: [...note.tags.filter(tag => id !== tag.id)]}
+                //return id !== note.id ? note : {...note, tags: [...note.tags.filter(tag => tagId !== tag.id)]}
+            }))
+        }
+        return (
+            <div className={s.notes}>
+                <div className={s.newNoteAndTag}>
+                    <div className={s.newNote}>
                 <textarea className={comtext.textarea}
                           placeholder="new note"
                           onChange={(e) => setNewNotice(e.target.value)}
                           value={newNotice}/>
-                    <button className={comm.button}
-                            onClick={() => addNote(notes)}>Create note
-                    </button>
+                        <button className={comm.button}
+                                onClick={() => addNote(notes)}>Create note
+                        </button>
+                    </div>
+                    <hr/>
+                    <div className={s.filter}>
+                        <input className={cominp.input}
+                               placeholder="search by #tags"
+                               onChange={(e) => setQuery(e.target.value)}
+                               value={query}/>
+                    </div>
                 </div>
-                <hr/>
-                <div className={s.filter}>
-                    <input className={cominp.input}
-                           placeholder="search by #tags"
-                           onChange={(e) => setQuery(e.target.value)}
-                           value={query}/>
-                </div>
+                {searchNotes.map(note =>
+                    <Note
+
+                        key={note.not_id}
+                        not_id={note.not_id}
+                        tagList={note.tags}
+                        editNote={editNote}
+                        deleteNote={deleteNote}
+                        addTag={addTag}
+                        deleteTag={deleteTag}
+                        description={note.description}
+
+                    />
+                )}
             </div>
-            {searchNotes.map(note =>
-                <Note
-
-                    key={note.not_id}
-                    not_id={note.not_id}
-                    tagList={note.tags}
-                    editNote={editNote}
-                    deleteNote={deleteNote}
-                    addTag={addTag}
-                    deleteTag={deleteTag}
-                    description={note.description}
-
-                />
-            )}
-        </div>
-    );
-};
+        );
+    };

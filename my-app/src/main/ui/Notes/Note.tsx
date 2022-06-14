@@ -4,7 +4,8 @@ import {TagType} from "./Notes";
 import comm from "../commonstyle/Botton.module.scss"
 import {EditNote} from "./EditNote";
 import {TagList} from "../TagsList/TagList";
-
+import { Marker } from "react-mark.js";
+import {findTags} from "../../../utils/findTags";
 
 export type NoteType = {
     not_id: number
@@ -18,7 +19,10 @@ export type NoteType = {
 }
 
 export const Note = (props: NoteType) => {
+    // console.log(findTags(props.description))
     const [isEdit, setIsEdit] = useState<boolean>(false)
+    const tempTags:any = findTags(props.description)
+
     return (
         <div className={s.noteOuterWrapper}>
             {!isEdit && <div className={s.noteInnerWrapper}>
@@ -26,7 +30,8 @@ export const Note = (props: NoteType) => {
                     <div className={s.noteBody}>
 
                         <div className={s.noteDescription}>
-                            {props.description}
+                            <Marker mark={tempTags} >{props.description}</Marker>
+                          {/*{props.description}*/}
                         </div>
                     </div>
                 </div>
@@ -48,7 +53,7 @@ export const Note = (props: NoteType) => {
             }
             {isEdit && <EditNote
                 cancel={setIsEdit}
-                id={props.not_id}
+                not_id={props.not_id}
                 description={props.description}
                 edit={props.editNote}
                 tagList={props.tagList}
