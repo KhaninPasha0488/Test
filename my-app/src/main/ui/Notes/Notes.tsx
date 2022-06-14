@@ -86,13 +86,13 @@ export const Notes = (props: NotesPropsType) => {
         console.log(not_id, tag)
         //
 
-        //     // @ts-ignore
-        //     setNotes(notes.map(note => {
-        //         return not_id !== note.not_id ? note : {...note,
-        //             tags: [...note.tags, tag.map(item => ({id: createId, body: item}))]
-        //         }
-        //     }))
-        //
+            // @ts-ignore
+            setNotes(notes.map(note => {
+                return not_id !== note.not_id ? note : {...note,
+                    tags: [...note.tags, tag.map(item => ({id: createId, body: item}))]
+                }
+            }))
+
 
             setNotes(notes.map(note => {
                 return not_id !== note.not_id ? note : {...note, tags: [...note.tags, {id: createId(), body: tag}]}
