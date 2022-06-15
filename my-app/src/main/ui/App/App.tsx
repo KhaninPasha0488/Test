@@ -5,13 +5,14 @@ import data from "../../data/data.json"
 import {Notes} from "../Notes/Notes";
 
 
- export const App = () => {
-     console.log(data.notes)
+export const App = () => {
+
+
     return (
 
-            <div className="App">
-                <Notes notes={data.notes} />
-            </div>
+        <div className="App">
+            <Notes notes={data.notes}/>
+        </div>
     );
 };
 
