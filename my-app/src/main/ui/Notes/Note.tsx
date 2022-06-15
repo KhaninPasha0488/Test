@@ -19,7 +19,6 @@ export type NoteType = {
 }
 
 export const Note = (props: NoteType) => {
-    // console.log(findTags(props.description))
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const tempTags:any = findTags(props.description)
 
@@ -31,7 +30,6 @@ export const Note = (props: NoteType) => {
 
                         <div className={s.noteDescription}>
                             <Marker mark={tempTags} >{props.description}</Marker>
-                          {/*{props.description}*/}
                         </div>
                     </div>
                 </div>
@@ -52,6 +50,7 @@ export const Note = (props: NoteType) => {
             </div>
             }
             {isEdit && <EditNote
+                // addTagNote={props.addTagNote}
                 cancel={setIsEdit}
                 not_id={props.not_id}
                 description={props.description}
